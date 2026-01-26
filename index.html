@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>שקל שמציל חיים - קרן להשתתפות עצמית בתרופות</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Heebo', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      padding-bottom: 80px;
+    }
+    @media (min-width: 768px) {
+      body { padding-bottom: 0; }
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin: 0 auto;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .active-tab {
+      border-bottom: 3px solid #0ea5e9;
+      color: #0ea5e9;
+      font-weight: bold;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    .sparkle-loading {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: #FFF;
+      border-radius: 50%;
+      animation: sparkle 1s infinite ease-in-out;
+    }
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+
+      <div class="flex items-center gap-3">
+        <!-- מומלץ מאוד לשנות את שם הקובץ ל-logo.png כדי להימנע מתקלות -->
+        <img src="לוגו חברים לרפואה 2025.png" alt="לוגו חברים לרפואה" class="h-12 md:h-14 object-contain">
+      </div>
+
+      <div class="hidden md:flex space-x-8 space-x-reverse text-sm font-medium text-slate-600 items-center">
+        <a href="#hero" class="hover:text-sky-600 transition">בית</a>
+        <a href="#problem" class="hover:text-sky-600 transition">הבעיה והפער</a>
+        <a href="#impact" class="hover:text-sky-600 transition">מחשבון אימפקט</a>
+        <a href="#donate" class="hover:text-sky-600 transition font-bold text-sky-600">תרמו עכשיו</a>
+        <a href="#model" class="hover:text-sky-600 transition">המודל התפעולי</a>
+
+        <!-- כפתור ניווט לאזור תרומה (רק גלילה) -->
+        <a href="#donate" class="bg-sky-600 text-white px-5 py-2 rounded-full hover:bg-sky-700 transition shadow-md font-bold">אמץ חולה</a>
+      </div>
+
+      <button class="md:hidden text-2xl text-slate-600" onclick="alert('תפריט מלא זמין במסך רחב')">☰</button>
+    </div>
+  </nav>
+
+  <!-- Mobile Sticky Donation Bar -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-slate-200 shadow-[0_-5px_15px_rgba(0,0,0,0.1)] p-3 px-6 md:hidden z-[60] flex items-center justify-between">
+    <div class="flex flex-col">
+      <span class="text-[10px] text-slate-500 font-medium">הכוח שלך להציל:</span>
+      <span class="text-sm font-black text-sky-600">350 ₪ = חיים</span>
+    </div>
+    <!-- עכשיו זה שולח לתשלום עם סכום -->
+    <button onclick="goToPayment(350)" class="bg-amber-400 text-amber-950 font-black px-6 py-3 rounded-full shadow-lg hover:bg-amber-300 transition text-sm flex items-center gap-2">
+      <span>❤️</span> תרום עכשיו
+    </button>
+  </div>
+
+  <!-- Hero -->
+  <section id="hero" class="relative bg-gradient-to-br from-slate-900 to-sky-900 text-white py-20 overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/medical-icons.png')]"></div>
+    <div class="container mx-auto px-6 relative z-10 text-center md:text-right flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-10 md:mb-0">
+        <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+          האם היית מוותר על החיים<br>
+          בשביל <span class="text-amber-400">350 ₪?</span>
+        </h1>
+        <p class="text-xl text-slate-300 mb-8 leading-relaxed max-w-xl">
+          בישראל, אלפי חולים מוותרים על תרופות מצילות חיים בשווי עשרות אלפי שקלים, רק כי אין להם את דמי ההשתתפות העצמית.
+          <br><br>
+          <strong>הפתרון שלנו:</strong> אנחנו סוגרים את הפער הקטן הזה, ופותחים עבורם את סל התרופות המלא.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+          <button onclick="document.getElementById('impact').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 text-amber-900 font-bold px-8 py-4 rounded-lg hover:bg-amber-300 transition shadow-lg transform hover:-translate-y-1">
+            גלה את כוח השקל שלך
+          </button>
+          <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'})" class="border-2 border-slate-400 text-slate-200 font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition">
+            איך זה עובד?
+          </button>
+        </div>
+      </div>
+
+      <div class="md:w-1/2 flex justify-center">
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl max-w-sm w-full shadow-2xl">
+          <div class="text-center">
+            <div class="text-5xl font-black text-amber-400 mb-2">×30</div>
+            <div class="text-lg text-slate-200 mb-6">מכפיל הערך החברתי</div>
+            <div class="h-px bg-white/20 w-full mb-6"></div>
+            <div class="text-slate-300 text-sm mb-1">יעד גיוס שנתי</div>
+            <div class="text-3xl font-bold text-white mb-4">₪6,000,000</div>
+            <div class="text-slate-300 text-sm mb-1">חולים שינצלו בשנה</div>
+            <div class="text-3xl font-bold text-white">2,000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section id="problem" class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <h2 class="text-3xl font-bold text-slate-800 mb-4">האבסורד: מפתח קטן שנועל דלת גדולה</h2>
+        <p class="text-slate-600 text-lg">
+          החולים שלנו עומדים בפני דילמה בלתי נתפסת: אוכל לילדים או תרופה למחלה.
+          הכסף הגדול (עלות התרופה) כבר שולם על ידי המדינה, אך ללא השתתפות עצמית, התרופה נשארת על המדף.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="text-4xl mb-4">💊</div>
+          <h3 class="text-xl font-bold text-slate-800 mb-2">התרופה קיימת</h3>
+          <p class="text-slate-600">תרופות ביולוגיות, הורמוני גדילה, טיפולי סרטן. עלותן: 20,000-120,000 ₪ בשנה.</p>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-xl border-2 border-red-100 relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 font-bold">החסם</div>
+          <div class="text-4xl mb-4">🛑</div>
+          <h3 class="text-xl font-bold text-red-900 mb-2">ההשתתפות העצמית</h3>
+          <p class="text-red-700">כ-350 ₪ לחודש (או 1,150 לרבעון). עבור משפחות עניות, זהו סכום בלתי אפשרי.</p>
+        </div>
+
+        <div class="p-6 bg-green-50 rounded-xl border-2 border-green-100">
+          <div class="text-4xl mb-4">🔓</div>
+          <h3 class="text-xl font-bold text-green-900 mb-2">הפתרון שלנו</h3>
+          <p class="text-green-700">אנחנו משלמים את ה-350 ₪. החולה מקבל את ה-20,000 ₪ מהמדינה.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact -->
+  <section id="impact" class="py-20 bg-slate-100">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+        <div>
+          <h2 class="text-3xl font-bold text-slate-800 mb-2">המחשבון מציל החיים</h2>
+          <p class="text-slate-600 mb-8">ראה כיצד התרומה הקטנה שלך מפעילה את תקציבי העתק של המדינה.</p>
+
+          <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
+            <label class="block text-slate-700 font-bold mb-2">כמה תרצה להשקיע בחודש?</label>
+
+            <div class="flex items-center gap-4 mb-6">
+              <input type="range" id="donationRange" min="10" max="1000" value="350" step="10"
+                     class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600">
+              <span id="donationValue" class="text-2xl font-black text-sky-600 w-24 text-center">₪350</span>
+            </div>
+
+            <div class="flex gap-2 mb-8">
+              <button onclick="setDonation(50)" class="flex-1 py-2 px-3 bg-slate-100 rounded-lg text-sm font-bold text-slate-600 hover:bg-sky-100 hover:text-sky-700 transition">דמי רצינות (50)</button>
+              <button onclick="setDonation(180)" class="flex-1 py-2 px-3 bg-slate-100 rounded-lg text-sm font-bold text-slate-600 hover:bg-sky-100 hover:text-sky-700 transition">חצי אימוץ (180)</button>
+              <button onclick="setDonation(350)" class="flex-1 py-2 px-3 bg-sky-100 border border-sky-300 rounded-lg text-sm font-bold text-sky-800 transition">אימוץ מלא (350)</button>
+            </div>
+
+            <!-- Gemini story -->
+            <div class="mb-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+              <div class="flex items-center justify-between mb-3">
+                <h4 class="font-bold text-indigo-900 text-sm">✨ ראה את מי אתה מציל</h4>
+                <span class="text-xs text-indigo-500 bg-white px-2 py-1 rounded-full border border-indigo-100">מופעל ע"י Gemini</span>
+              </div>
+              <p class="text-sm text-indigo-700 mb-3">לחץ כדי ליצור סיפור אישי שממחיש בדיוק מה התרומה שלך עושה.</p>
+              <button id="btn-generate-story" onclick="generateImpactStory()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-bold transition flex items-center justify-center gap-2">
+                <span>✨ צור סיפור אימפקט</span>
+              </button>
+              <div id="story-result" class="hidden mt-4 text-sm text-slate-700 leading-relaxed italic bg-white p-3 rounded-lg border border-indigo-100 shadow-sm"></div>
+              <div id="story-error" class="hidden mt-2 text-xs text-red-500"></div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+              <div class="flex justify-between items-end mb-2">
+                <span class="text-slate-500 font-medium">העלות שלך:</span>
+                <span id="userCost" class="text-xl font-bold text-slate-700">₪350</span>
+              </div>
+              <div class="flex justify-between items-end mb-4">
+                <span class="text-sky-600 font-bold">שווי תרופות שהצלת:</span>
+                <span id="medicineValue" class="text-3xl font-black text-green-600">₪10,500</span>
+              </div>
+              <div class="text-xs text-slate-400 text-center">* מחושב לפי מכפיל ממוצע של פי 30</div>
+            </div>
+
+            <!-- CTA מתחת למחשבון (שולח לתשלום עם סכום מהסליידר) -->
+            <button onclick="goToPayment(getCurrentDonation())" class="mt-6 w-full bg-amber-400 text-amber-950 font-black py-3 rounded-xl hover:bg-amber-300 transition shadow-lg">
+              תרום עכשיו לפי הסכום שבחרתי
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
+          <h3 class="text-lg font-bold text-center mb-4 text-slate-700">יחס המינוף: הכסף שלך מול כסף המדינה</h3>
+          <div class="chart-container">
+            <canvas id="impactChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Donate -->
+  <section id="donate" class="py-20 bg-slate-900 text-white scroll-mt-20">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-black mb-4">בחר את השותפות שלך</h2>
+      <p class="text-slate-400 mb-12 max-w-xl mx-auto">
+        ההשקעה שלך מצילה חיים באופן מיידי. בחרו את המסלול המתאים לכם.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+
+        <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-amber-400 transition transform hover:-translate-y-2 flex flex-col justify-between h-full">
+          <div>
+            <div class="text-amber-400 font-bold text-xl mb-2">דמי רצינות</div>
+            <div class="text-4xl font-black mb-4">₪50 <span class="text-sm font-normal text-slate-400">/חודש</span></div>
+            <p class="text-slate-300 text-sm mb-6">עזרה בסיסית לחולים כרוניים בהשתתפות סמלית.</p>
+          </div>
+          <button onclick="goToPayment(50)" class="w-full py-3 rounded-lg border border-slate-500 hover:bg-slate-700 transition font-bold">תרום 50 ₪</button>
+        </div>
+
+        <div class="bg-gradient-to-b from-sky-900 to-slate-800 rounded-2xl p-8 border-2 border-sky-500 relative transform md:-translate-y-4 shadow-2xl flex flex-col justify-between h-full order-first md:order-none">
+          <div>
+            <div class="absolute top-0 right-1/2 transform translate-x-1/2 -translate-y-1/2 bg-sky-500 text-white px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap shadow-lg">המומלץ ביותר</div>
+            <div class="text-white font-bold text-2xl mb-2 mt-2">אימוץ מלא</div>
+            <div class="text-5xl font-black mb-4 text-sky-400">₪350 <span class="text-sm font-normal text-slate-300">/חודש</span></div>
+            <p class="text-slate-200 text-sm mb-6">אתה מכסה את מלוא ההשתתפות העצמית לחולה אחד ומציל אותו.</p>
+            <div class="bg-white/10 rounded-lg p-2 mb-6 text-center">
+              <div class="text-xs text-slate-300">שווי ערך אמיתי:</div>
+              <div class="font-mono text-amber-300 font-bold text-lg">₪10,500 תרופות</div>
+            </div>
+          </div>
+          <button onclick="goToPayment(350)" class="w-full py-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-black text-lg transition shadow-lg animate-pulse">אמץ חולה עכשיו</button>
+        </div>
+
+        <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-amber-400 transition transform hover:-translate-y-2 flex flex-col justify-between h-full">
+          <div>
+            <div class="text-amber-400 font-bold text-xl mb-2">חצי אימוץ</div>
+            <div class="text-4xl font-black mb-4">₪180 <span class="text-sm font-normal text-slate-400">/חודש</span></div>
+            <p class="text-slate-300 text-sm mb-6">שותפות במימון השתתפות עצמית עבור חולים קשים.</p>
+          </div>
+          <button onclick="goToPayment(180)" class="w-full py-3 rounded-lg border border-slate-500 hover:bg-slate-700 transition font-bold">תרום 180 ₪</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Model -->
+  <section id="model" class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-slate-800 mb-4">שקיפות ובקרה מלאה</h2>
+        <p class="text-slate-600 max-w-2xl mx-auto">
+          אנו פועלים למעלה מ-20 שנה עם מערך זכאות מקצועי. הכסף לא עובר לידיים פרטיות, אלא ישירות לקופות החולים.
+        </p>
+      </div>
+
+      <div class="flex justify-center mb-8 border-b border-slate-200">
+        <button onclick="switchTab('process')" id="tab-process" class="active-tab px-6 py-3 text-lg transition focus:outline-none">תהליך העבודה</button>
+        <button onclick="switchTab('criteria')" id="tab-criteria" class="px-6 py-3 text-lg text-slate-500 hover:text-slate-700 transition focus:outline-none">קריטריונים לזכאות</button>
+      </div>
+
+      <div id="content-process" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="p-6 bg-slate-50 rounded-lg border-t-4 border-sky-500 shadow-sm card-hover">
+          <div class="text-2xl font-bold text-sky-600 mb-2">01</div>
+          <h4 class="font-bold mb-2">פניה ובדיקה</h4>
+          <p class="text-sm text-slate-600">קבלה דיגיטלית של מסמכים רפואיים ופיננסיים (דפי בנק, אישור עו"ס).</p>
+        </div>
+        <div class="p-6 bg-slate-50 rounded-lg border-t-4 border-sky-500 shadow-sm card-hover">
+          <div class="text-2xl font-bold text-sky-600 mb-2">02</div>
+          <h4 class="font-bold mb-2">ועדה מקצועית</h4>
+          <p class="text-sm text-slate-600">אישור זכאות ע"י ועדה פנימית (כלכלית/רפואית) לפי נוהל קשוח.</p>
+        </div>
+        <div class="p-6 bg-slate-50 rounded-lg border-t-4 border-sky-500 shadow-sm card-hover">
+          <div class="text-2xl font-bold text-sky-600 mb-2">03</div>
+          <h4 class="font-bold mb-2">תשלום לקופה</h4>
+          <p class="text-sm text-slate-600">הוצאת צ'ק לפקודת קופת החולים בלבד עבור המרשם הספציפי.</p>
+        </div>
+        <div class="p-6 bg-slate-50 rounded-lg border-t-4 border-sky-500 shadow-sm card-hover">
+          <div class="text-2xl font-bold text-sky-600 mb-2">04</div>
+          <h4 class="font-bold mb-2">בקרה ודיווח</h4>
+          <p class="text-sm text-slate-600">קבלת אסמכתא על מימוש כתנאי לרבעון הבא ודיווח לתורם.</p>
+        </div>
+      </div>
+
+      <div id="content-criteria" class="hidden grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-amber-50 p-6 rounded-xl border border-amber-100">
+          <h4 class="text-xl font-bold text-amber-900 mb-4">קריטריונים כלכליים</h4>
+          <ul class="space-y-2 text-amber-800">
+            <li>• הכנסה לנפש עד 1,800 ₪ (נטו לאחר שכירות).</li>
+            <li>• בדיקת עובר ושב 3 חודשים אחורה.</li>
+            <li>• דו"ח "הר הכסף" לאיתור נכסים חבויים.</li>
+            <li>• תקרת סיוע שנתית: 4,200 ₪ למשפחה.</li>
+          </ul>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-sky-50 p-6 rounded-xl border border-sky-100">
+            <h4 class="text-xl font-bold text-sky-900 mb-4">קריטריונים רפואיים</h4>
+            <ul class="space-y-2 text-sky-800">
+              <li>• חולים במחלות כרוניות או קשות.</li>
+              <li>• התרופה חייבת להיות כלולה בסל הבריאות.</li>
+              <li>• עדיפות לילדים, קשישים ומשפחות מרובות חולים.</li>
+              <li>• מניעת אשפוזים וסיבוכים רפואיים.</li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border-2 border-slate-200 shadow-sm">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xl">🤔</span>
+              <h4 class="font-bold text-slate-800">מבולבלים מהבירוקרטיה?</h4>
+            </div>
+            <p class="text-sm text-slate-500 mb-3">הדביקו כאן טקסט רשמי (מביטוח לאומי או קופת חולים) וניתן ל-Gemini לפשט אותו.</p>
+            <textarea id="bureaucracy-input" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none mb-3" rows="3" placeholder="הדבק טקסט כאן..."></textarea>
+            <button id="btn-simplify" onclick="simplifyText()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-bold transition flex justify-center items-center gap-2">
+              ✨ פשט לי את הטקסט
+            </button>
+            <div id="simplify-result" class="hidden mt-3 p-3 bg-green-50 text-green-800 text-sm rounded-lg border border-green-100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Budget -->
+  <section class="py-16 bg-slate-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold text-slate-800 mb-8">מבנה תקציב ויעדים (שנה א')</h2>
+      <div class="flex flex-col md:flex-row justify-center items-center gap-12">
+        <div class="w-full md:w-1/3">
+          <div class="chart-container" style="height: 250px;">
+            <canvas id="budgetChart"></canvas>
+          </div>
+          <p class="text-sm text-slate-500 mt-4">יעד גיוס: 5.5-6 מיליון ₪</p>
+        </div>
+
+        <div class="w-full md:w-1/2 text-right">
+          <h3 class="text-xl font-bold mb-4 text-sky-700">מודל רזה ויעיל</h3>
+          <ul class="space-y-4 text-slate-700">
+            <li class="flex items-start">
+              <span class="ml-3 text-sky-500 text-xl">✓</span>
+              <span><strong>90% סיוע ישיר לחולים:</strong> הרוב המוחלט של התרומה חוזר ישירות לציבור כמימון השתתפות עצמית.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="ml-3 text-slate-400 text-xl">✓</span>
+              <span><strong>10% משלוח ותפעול:</strong> עלויות מזעריות הכוללות משלוח צ'קים בדואר רשום וניהול אדמיניסטרטיבי בסיסי.</span>
+            </li>
+            <li class="flex items-start">
+              <span class="ml-3 text-slate-400 text-xl">✓</span>
+              <span><strong>0% שיווק וגיוס:</strong> כל שקל שנתרם מיועד למטרה לשמה הוא ניתן.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800 text-sm">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col items-center text-center">
+        <div class="mb-6">
+          <img src="לוגו חברים לרפואה 2025.png" alt="לוגו חברים לרפואה" class="h-16 object-contain">
+        </div>
+
+        <h3 class="text-white font-bold text-lg mb-4">חברים לרפואה ע״ר 58-040-874-8</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mb-6 max-w-2xl">
+          <p><span class="text-slate-500 ml-2">כתובת:</span> שמואל הנביא 4, בני ברק</p>
+          <p><span class="text-slate-500 ml-2">דוא״ל:</span> <a href="mailto:haverim@haverim.org.il" class="hover:text-sky-400 transition">haverim@haverim.org.il</a></p>
+          <p><span class="text-slate-500 ml-2">טלפון:</span> <a href="tel:035792220" class="hover:text-sky-400 transition">03-5792220</a></p>
+          <p><span class="text-slate-500 ml-2">פקס:</span> 03-5792223</p>
+        </div>
+
+        <div class="bg-slate-900 px-6 py-4 rounded-xl border border-slate-800 mb-8">
+          <p class="font-bold text-slate-300 mb-1">שעות פעילות:</p>
+          <p>ימי א׳-ה׳: 09:00 - 19:00</p>
+          <p class="text-xs text-slate-600 mt-1">*לא כולל ערבי חג וחול המועד</p>
+        </div>
+
+        <div class="border-t border-slate-900 w-full max-w-xs mb-6"></div>
+
+        <p class="text-slate-600 text-xs">
+          כל הזכויות שמורות לחברים לרפואה (ע״ר) 2003
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // =========================
+    // Payment (Dynamic p=)
+    // =========================
+    const PAYMENT_BASE_URL = "https://get.haverim.org.il/p/payment?8tp8HeNPb6PQTeF=";
+
+    function goToPayment(amount) {
+      const safeAmount = Math.max(1, Math.floor(Number(amount) || 0));
+      window.location.href = `${PAYMENT_BASE_URL}&p=${safeAmount}`;
+    }
+
+    function getCurrentDonation() {
+      const el = document.getElementById('donationRange');
+      return el ? Number(el.value) : 350;
+    }
+
+    // =========================
+    // Gemini (does NOT break UI)
+    // =========================
+    const apiKey = ""; // הדביקי כאן את המפתח שלך (AIzaSy...)
+
+    async function callGemini(prompt) {
+      // אם אין מפתח — לא שוברים את האתר
+      if (!apiKey) {
+        throw new Error("NO_API_KEY");
+      }
+
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+      const delays = [1000, 2000, 4000];
+      for (let i = 0; i <= delays.length; i++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) throw new Error(`HTTP_${response.status}`);
+
+          const data = await response.json();
+          return data.candidates?.[0]?.content?.parts?.[0]?.text || "לא הצלחתי לייצר תשובה כרגע.";
+
+        } catch (error) {
+          if (i === delays.length) throw error;
+          await new Promise(resolve => setTimeout(resolve, delays[i]));
+        }
+      }
+    }
+
+    async function generateImpactStory() {
+      const amount = getCurrentDonation();
+      const multiplier = 30;
+      const totalValue = (amount * multiplier).toLocaleString();
+
+      const btn = document.getElementById('btn-generate-story');
+      const resultDiv = document.getElementById('story-result');
+      const errorDiv = document.getElementById('story-error');
+
+      const originalBtnText = btn.innerHTML;
+      btn.innerHTML = `<span class="sparkle-loading"></span> כותב סיפור...`;
+      btn.disabled = true;
+      resultDiv.classList.add('hidden');
+      errorDiv.classList.add('hidden');
+
+      const prompt = `
+Write a very short, fictional, emotional story (max 40 words) in Hebrew about an Israeli patient.
+Do not use real names.
+The patient needs a medication worth ${totalValue} NIS but cannot afford the ${amount} NIS copay.
+Describe their illness briefly (e.g., Cancer, Crohn's, Diabetes) and how this specific donation allows them to get the medicine today.
+End with a thank you.
+Tone: Dignified, hopeful, emotional.
+`;
+
+      try {
+        const story = await callGemini(prompt);
+        resultDiv.innerText = story;
+        resultDiv.classList.remove('hidden');
+      } catch (err) {
+        if (String(err.message || "").includes("NO_API_KEY")) {
+          errorDiv.innerText = "כרגע זה במצב הדגמה (חסר מפתח Gemini).";
+        } else {
+          errorDiv.innerText = "אירעה שגיאה ביצירת הסיפור. נסה שוב.";
+        }
+        errorDiv.classList.remove('hidden');
+      } finally {
+        btn.innerHTML = originalBtnText;
+        btn.disabled = false;
+      }
+    }
+
+    async function simplifyText() {
+      const input = document.getElementById('bureaucracy-input').value;
+      if (!input.trim()) return;
+
+      const btn = document.getElementById('btn-simplify');
+      const resultDiv = document.getElementById('simplify-result');
+
+      const originalBtnText = btn.innerHTML;
+      btn.innerHTML = `<span class="sparkle-loading"></span> מנתח טקסט...`;
+      btn.disabled = true;
+      resultDiv.classList.add('hidden');
+
+      const prompt = `
+Simplify the following Hebrew bureaucratic/medical text into plain, simple Hebrew that an elderly person can understand easily.
+Keep it short and reassuring.
+Text to simplify: "${input}"
+`;
+
+      try {
+        const simplified = await callGemini(prompt);
+        resultDiv.innerText = simplified;
+        resultDiv.classList.remove('hidden');
+      } catch (err) {
+        resultDiv.innerText = (!apiKey)
+          ? "כרגע זה במצב הדגמה (חסר מפתח Gemini)."
+          : "לא הצלחתי לפשט את הטקסט כרגע. נסה שוב.";
+        resultDiv.classList.remove('hidden');
+      } finally {
+        btn.innerHTML = originalBtnText;
+        btn.disabled = false;
+      }
+    }
+
+    // =========================
+    // Calculator + Charts
+    // =========================
+    const rangeInput = document.getElementById('donationRange');
+    const valueDisplay = document.getElementById('donationValue');
+    const userCostDisplay = document.getElementById('userCost');
+    const medicineValueDisplay = document.getElementById('medicineValue');
+    let impactChart;
+
+    function updateCalculator(amount) {
+      const multiplier = 30;
+      const medValue = amount * multiplier;
+
+      valueDisplay.innerText = `₪${amount}`;
+      userCostDisplay.innerText = `₪${amount}`;
+      medicineValueDisplay.innerText = `₪${medValue.toLocaleString()}`;
+      rangeInput.value = amount;
+
+      if (impactChart) {
+        impactChart.data.datasets[0].data = [amount, medValue];
+        impactChart.update();
+      }
+    }
+
+    function setDonation(amount) {
+      updateCalculator(amount);
+    }
+
+    rangeInput.addEventListener('input', (e) => {
+      updateCalculator(parseInt(e.target.value, 10));
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctxImpact = document.getElementById('impactChart').getContext('2d');
+      impactChart = new Chart(ctxImpact, {
+        type: 'bar',
+        data: {
+          labels: ['התרומה שלך', 'שווי תרופות בפועל'],
+          datasets: [{
+            label: 'ערך בשקלים',
+            data: [350, 10500],
+            backgroundColor: ['#94a3b8', '#16a34a'],
+            borderRadius: 8,
+            barThickness: 50
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) { return '₪' + context.raw.toLocaleString(); }
+              }
+            }
+          },
+          scales: {
+            y: { beginAtZero: true, grid: { display: true, color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      const ctxBudget = document.getElementById('budgetChart').getContext('2d');
+      new Chart(ctxBudget, {
+        type: 'doughnut',
+        data: {
+          labels: ['סיוע ישיר לחולים', 'משלוח ותפעול'],
+          datasets: [{
+            data: [90, 10],
+            backgroundColor: ['#0ea5e9', '#cbd5e1'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { family: 'Heebo' } } },
+            tooltip: {
+              callbacks: {
+                label: function(context) { return context.label + ': ' + context.raw + '%'; }
+              }
+            }
+          }
+        }
+      });
+    });
+
+    function switchTab(tabName) {
+      document.getElementById('content-process').classList.add('hidden');
+      document.getElementById('content-process').classList.remove('grid');
+      document.getElementById('content-criteria').classList.add('hidden');
+      document.getElementById('content-criteria').classList.remove('grid');
+
+      document.getElementById('tab-process').classList.remove('active-tab', 'text-slate-800');
+      document.getElementById('tab-process').classList.add('text-slate-500');
+      document.getElementById('tab-criteria').classList.remove('active-tab', 'text-slate-800');
+      document.getElementById('tab-criteria').classList.add('text-slate-500');
+
+      const contentEl = document.getElementById(`content-${tabName}`);
+      contentEl.classList.remove('hidden');
+      contentEl.classList.add('grid');
+
+      const tabEl = document.getElementById(`tab-${tabName}`);
+      tabEl.classList.add('active-tab', 'text-slate-800');
+      tabEl.classList.remove('text-slate-500');
+    }
+  </script>
+</body>
+</html>

@@ -444,20 +444,46 @@
       const el = document.getElementById('donationRange');
       return el ? Number(el.value) : 350;
     }
+// =========================
+// Gemini via Cloudflare Worker (SECURE)
+// =========================
+const GEMINI_PROXY_URL = "https://gemini-proxy.baruch.workers.dev";
 
-    // =========================
-    // Gemini (does NOT break UI)
-    // =========================
-    const apiKey = ""; // הדביקי כאן את המפתח שלך (AIzaSy...)
+async function callGemini(prompt) {
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }]
+  };
 
-    async function callGemini(prompt) {
-      // אם אין מפתח — לא שוברים את האתר
-      if (!apiKey) {
-        throw new Error("NO_API_KEY");
+  const delays = [1000, 2000, 4000];
+
+  for (let i = 0; i <= delays.length; i++) {
+    try {
+      const response = await fetch(GEMINI_PROXY_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`PROXY_HTTP_${response.status}`);
       }
 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-      const payload = { contents: [{ parts: [{ text: prompt }] }] };
+      const data = await response.json();
+      return (
+        data.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "לא הצלחתי לייצר תשובה כרגע."
+      );
+    } catch (err) {
+      if (i === delays.length) throw err;
+      await new Promise((r) => setTimeout(r, delays[i]));
+    }
+  }
+}
+
+
+      const url = "https://gemini-proxy.baruch.workers.dev";
+const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
 
       const delays = [1000, 2000, 4000];
       for (let i = 0; i <= delays.length; i++) {
@@ -666,6 +692,7 @@ Text to simplify: "${input}"
   </script>
 </body>
 </html>
+
 
 
 

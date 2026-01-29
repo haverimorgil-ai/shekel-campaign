@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>שקל שמציל חיים - קרן להשתתפות עצמית בתרופות</title>
 
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="שקל שמציל חיים - 350 ₪ מפעילים 10,500 ₪ תרופות">
+  <meta property="og:description" content="אלפי חולים מוותרים על תרופות מצילות חיים רק בגלל דמי השתתפות עצמית. התרומה שלך פותחת להם את סל התרופות המלא.">
+  <meta property="og:image" content="https://campaign.haverim.org.il/img_2026.png">
+  <meta property="og:url" content="https://campaign.haverim.org.il">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://campaign.haverim.org.il/img_2026.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -94,39 +103,43 @@
   <!-- Hero -->
   <section id="hero" class="relative bg-gradient-to-br from-slate-900 to-sky-900 text-white py-20 overflow-hidden">
     <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/medical-icons.png')]"></div>
-    <div class="container mx-auto px-6 relative z-10 text-center md:text-right flex flex-col md:flex-row items-center">
-      <div class="md:w-1/2 mb-10 md:mb-0">
-        <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
-          האם היית מוותר על החיים<br>
-          בשביל <span class="text-amber-400">350 ₪?</span>
-        </h1>
-        <p class="text-xl text-slate-300 mb-8 leading-relaxed max-w-xl">
-          בישראל, אלפי חולים מוותרים על תרופות מצילות חיים בשווי עשרות אלפי שקלים, רק כי אין להם את דמי ההשתתפות העצמית.
-          <br><br>
-          <strong>הפתרון שלנו:</strong> אנחנו סוגרים את הפער הקטן הזה, ופותחים עבורם את סל התרופות המלא.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <button onclick="document.getElementById('impact').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 text-amber-900 font-bold px-8 py-4 rounded-lg hover:bg-amber-300 transition shadow-lg transform hover:-translate-y-1">
-            גלה את כוח השקל שלך
-          </button>
-          <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'})" class="border-2 border-slate-400 text-slate-200 font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition">
-            איך זה עובד?
-          </button>
-        </div>
-      </div>
-
-      <div class="md:w-1/2 flex justify-center">
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl max-w-sm w-full shadow-2xl">
-          <div class="text-center">
-            <div class="text-5xl font-black text-amber-400 mb-2">×30</div>
-            <div class="text-lg text-slate-200 mb-6">מכפיל הערך החברתי</div>
-            <div class="h-px bg-white/20 w-full mb-6"></div>
-            <div class="text-slate-300 text-sm mb-1">יעד גיוס שנתי</div>
-            <div class="text-3xl font-bold text-white mb-4">₪6,000,000</div>
-            <div class="text-slate-300 text-sm mb-1">חולים שינצלו בשנה</div>
-            <div class="text-3xl font-bold text-white">2,000</div>
+    <div class="container mx-auto px-6 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Text Content -->
+        <div class="text-center lg:text-right order-2 lg:order-1">
+          <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+            האם היית מוותר על החיים<br>
+            בשביל <span class="text-amber-400">350 ₪?</span>
+          </h1>
+          <p class="text-xl text-slate-300 mb-8 leading-relaxed">
+            בישראל, אלפי חולים מוותרים על תרופות מצילות חיים בשווי עשרות אלפי שקלים, רק כי אין להם את דמי ההשתתפות העצמית.
+            <br><br>
+            <strong>הפתרון שלנו:</strong> אנחנו סוגרים את הפער הקטן הזה, ופותחים עבורם את סל התרופות המלא.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <button onclick="document.getElementById('impact').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 text-amber-900 font-bold px-8 py-4 rounded-lg hover:bg-amber-300 transition shadow-lg transform hover:-translate-y-1">
+              גלה את כוח השקל שלך
+            </button>
+            <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'})" class="border-2 border-slate-400 text-slate-200 font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition">
+              איך זה עובד?
+            </button>
           </div>
         </div>
+
+        <!-- Image -->
+        <div class="order-1 lg:order-2 flex justify-center">
+          <div class="relative">
+            <img src="./img_2026.png" alt="ילדה מחזיקה תרופה" class="rounded-2xl shadow-2xl max-w-full h-auto lg:max-w-lg">
+            <div class="absolute -bottom-6 -right-6 bg-amber-400 text-amber-900 p-6 rounded-xl shadow-2xl max-w-xs">
+              <div class="text-4xl font-black mb-1">×30</div>
+              <div class="text-sm font-bold">מכפיל הערך החברתי</div>
+              <div class="text-xs mt-2">350 ₪ שלך = 10,500 ₪ תרופות</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -422,9 +435,6 @@
 
   <!-- Scripts -->
   <script>
-    // =========================
-    // Payment (Dynamic p=)
-    // =========================
     const PAYMENT_BASE_URL = "https://get.haverim.org.il/p/payment?8tp8HeNPb6PQTeF=";
 
     function goToPayment(amount) {
@@ -437,9 +447,6 @@
       return el ? Number(el.value) : 350;
     }
 
-    // =========================
-    // Gemini via Cloudflare Worker (SECURE)
-    // =========================
     const GEMINI_PROXY_URL = "https://gemini-proxy.baruch.workers.dev";
 
     async function callGemini(prompt) {
@@ -496,12 +503,42 @@
       errorDiv.classList.add('hidden');
 
       const prompt = `
-Write a very short, fictional, emotional story (max 40 words) in Hebrew about an Israeli patient.
-Do not use real names.
-The patient needs a medication worth ${totalValue} NIS but cannot afford the ${amount} NIS copay.
-Describe their illness briefly (e.g., Cancer, Crohn's, Diabetes) and how this specific donation allows them to get the medicine today.
-End with a thank you.
-Tone: Dignified, hopeful, emotional.
+כתוב סיפור קצר מאוד (עד 40 מילים) בעברית על חולה ישראלי בדיוני.
+אל תשתמש בשמות אמיתיים.
+החולה זקוק לתרופה בשווי ${totalValue} ₪ אך אינו יכול לשלם את ההשתתפות העצמית של ${amount} ₪.
+
+בחר באקראי אחת מהמחלות הבאות (כל פעם מחלה אחרת!):
+- סרטן השד
+- סרטן הריאות
+- סרטן המעי הגס
+- לוקמיה (סרטן הדם) בילדים
+- לימפומה
+- סרטן הערמונית
+- סרטן השחלות
+- סרטן המוח
+- סרטן העור (מלנומה)
+- סוכרת מסוג 1 (ילדים)
+- מחלת קרוהן
+- קוליטיס כיבית
+- פסוריאזיס קשה
+- דלקת מפרקים שגרונית
+- תסמונת נפרוטית (ילדים)
+- אסתמה קשה
+- מיגרנה כרונית
+- מחלת לב
+- גידולים נדירים
+- מחלות אוטואימוניות
+- MS - טרשת נפוצה
+- אפילפסיה
+- המופיליה
+- מחלות נדירות בילדים
+- מחלות ריאה כרוניות
+
+תאר בקצרה את המחלה וכיצד התרומה הספציפית הזאת מאפשרת לו/לה לקבל את התרופה היום.
+סיים בתודה קצרה.
+טון: מכובד, מלא תקווה, רגשי.
+
+חשוב: כל פעם סיפור שונה עם מחלה שונה! גוון את הסיפורים - לפעמים ילד, לפעמים אם משפחה, לפעמים קשיש.
 `;
 
       try {
@@ -550,9 +587,6 @@ Text to simplify: "${input}"
       }
     }
 
-    // =========================
-    // Calculator + Charts
-    // =========================
     const rangeInput = document.getElementById('donationRange');
     const valueDisplay = document.getElementById('donationValue');
     const userCostDisplay = document.getElementById('userCost');

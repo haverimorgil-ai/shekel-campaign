@@ -121,7 +121,6 @@
             <!-- Gradient Overlay on Image Bottom -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
           </div>
-
         </div>
 
         <!-- Text Content - Second on Mobile, First on Desktop -->
@@ -135,7 +134,7 @@
             <br><br>
             <strong>הפתרון שלנו:</strong> אנחנו סוגרים את הפער הקטן הזה, ופותחים עבורם את סל התרופות המלא.
           </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
             <button onclick="document.getElementById('impact').scrollIntoView({behavior: 'smooth'})" class="bg-amber-400 text-amber-900 font-bold px-8 py-4 rounded-lg hover:bg-amber-300 transition shadow-lg transform hover:-translate-y-1">
               גלה את כוח השקל שלך
             </button>
@@ -143,6 +142,25 @@
               איך זה עובד?
             </button>
           </div>
+
+          <!-- Stats Card Below Buttons -->
+          <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 max-w-md mx-auto lg:mx-0">
+            <div class="text-center lg:text-right">
+              <div class="text-5xl font-black text-amber-400 mb-2">×30</div>
+              <div class="text-lg font-bold text-white mb-4">מכפיל הערך החברתי</div>
+              <div class="border-t border-slate-600 pt-4 space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-300 text-sm">יעד גיוס שנתי</span>
+                  <span class="text-2xl font-black text-white">₪6,000,000</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-300 text-sm">חולים שינצלו בשנה</span>
+                  <span class="text-2xl font-black text-white">2,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -701,4 +719,3 @@ Text to simplify: "${input}"
   </script>
 </body>
 </html>
-

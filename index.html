@@ -128,17 +128,34 @@
           </div>
         </div>
 
-        <!-- Image -->
-        <div class="order-1 lg:order-2 flex justify-center">
-          <div class="relative">
-            <img src="./img_2026.png" alt="ילדה מחזיקה תרופה" class="rounded-2xl shadow-2xl max-w-full h-auto lg:max-w-lg">
-            <div class="absolute -bottom-6 -right-6 bg-amber-400 text-amber-900 p-6 rounded-xl shadow-2xl max-w-xs">
-              <div class="text-4xl font-black mb-1">×30</div>
-              <div class="text-sm font-bold">מכפיל הערך החברתי</div>
-              <div class="text-xs mt-2">350 ₪ שלך = 10,500 ₪ תרופות</div>
+        <!-- Image Column (Left Side) - The "Frame" -->
+<div class="md:w-1/2 relative mt-10 md:mt-0">
+    <!-- The Main Image Container -->
+    <div class="relative rounded-3xl shadow-2xl overflow-hidden border-4 border-white/10 group">
+        <!-- Image File (hero.png) -->
+        <img 
+            src="hero.png" 
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80';"
+            alt="ילדה ישראלית מחזיקה תרופה" 
+            class="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700 ease-out" 
+        />
+        
+        <!-- Gradient Overlay on Image Bottom -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+    </div>
+
+    <!-- Floating Stats Widget (Overlapping the image) -->
+    <div class="absolute -bottom-6 -left-4 md:-left-8 bg-white text-slate-800 p-6 rounded-2xl shadow-xl border border-slate-100 max-w-xs animate-bounce-slow">
+        <div class="flex items-center gap-4">
+            <div class="bg-amber-100 p-3 rounded-full text-amber-600 font-black text-2xl">×30</div>
+            <div>
+                <div class="text-xs text-slate-500 font-bold uppercase tracking-wider">מכפיל האימפקט</div>
+                <div class="text-sm font-bold leading-tight">כל שקל שווה 30 ש״ח בתרופות</div>
             </div>
-          </div>
         </div>
+    </div>
+</div>
+
 
       </div>
     </div>
@@ -696,3 +713,4 @@ Text to simplify: "${input}"
   </script>
 </body>
 </html>
+
